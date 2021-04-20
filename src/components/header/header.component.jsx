@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { auth } from "../../firebase/firebase.utils";
+import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import "./header.styles.scss";
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
 	<div className="header">
 		<Link to="/" className="logo-container">
 			<Logo className="logo" />
@@ -26,12 +28,16 @@ const Header = ({ currentUser }) => (
 					SIGN IN
 				</Link>
 			)}
+			<CartIcon />
 		</div>
+		{hidden ? null : <CartDropdown />}
 	</div>
 );
 
-const mapStateToProps = (state) => ({
-	currentUser: state.user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+	// advanced destructuring of state is done..
+	currentUser,
+	hidden,
 });
 // we write a function mapStateToProps (can be anything but it is standard so,)
 // what we return from the function is an object where the name of the property would be the actual prop that we pass in
