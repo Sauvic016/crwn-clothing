@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux"; //Provider is a component that we get from react-redux
-// This provider is a component class that we want to wrap around the entire application
-// Because we want everything inside to have access to this store object that we get from redux
-import store from "./redux/store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { store, persistor } from "./redux/store.js";
 
 import "./index.css";
 import App from "./App";
@@ -13,7 +13,9 @@ import App from "./App";
 ReactDOM.render(
 	<Provider store={store}>
 		<BrowserRouter>
-			<App />
+			<PersistGate persistor={persistor}>
+				<App />
+			</PersistGate>
 		</BrowserRouter>
 	</Provider>,
 	document.getElementById("root")
